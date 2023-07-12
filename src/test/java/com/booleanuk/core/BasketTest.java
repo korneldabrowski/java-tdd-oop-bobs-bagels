@@ -10,27 +10,27 @@ public class BasketTest {
     @Test
     public void testAddBagel() {
 
-        Item item = new Item("Bagel", 1);
-        basket.addBagel(item);
+        ItemTypeEnum item = ItemTypeEnum.BGLE;
+        basket.addBagel(item.BGLE);
+
         Assertions.assertEquals(1, basket.getBasketSize());
     }
 
     @Test
     public void testGetList() {
-        Item item = new Item("Bagel", 1);
-        basket.addBagel(item);
-        basket.addBagel(item);
-        basket.addBagel(item);
-
+        ItemTypeEnum item = ItemTypeEnum.BGLE;
+        basket.addBagel(item.BGLE);
+        basket.addBagel(item.BGLP);
+        basket.addBagel(item.BGLO);
         Assertions.assertEquals(3, basket.getBasketSize());
     }
 
     @Test
     public void testRemoveBagel() {
-        Item item = new Item("Bagel", 1);
-        basket.addBagel(item);
-        basket.addBagel(item);
-        basket.addBagel(item);
+        ItemTypeEnum item = ItemTypeEnum.BGLE;
+        basket.addBagel(item.BGLE);
+        basket.addBagel(item.BGLP);
+        basket.addBagel(item.BGLO);
         basket.removeBagel(item);
 
         Assertions.assertEquals(2, basket.getBasketSize());
@@ -41,11 +41,10 @@ public class BasketTest {
 
         basket.setCapacity(2);
 
-        Item item = new Item("Bagel", 1);
-
-        basket.addBagel(item);
-        basket.addBagel(item);
-        basket.addBagel(item);
+        ItemTypeEnum item = ItemTypeEnum.BGLE;
+        basket.addBagel(item.BGLE);
+        basket.addBagel(item.BGLP);
+        basket.addBagel(item.BGLO);
 
         Assertions.assertEquals(2, basket.getBasketSize());
     }
@@ -55,10 +54,10 @@ public class BasketTest {
 
         basket.setCapacity(2);
 
-        Item item = new Item("Bagel", 1);
-
-        basket.addBagel(item);
-        basket.addBagel(item);
+        ItemTypeEnum item = ItemTypeEnum.BGLE;
+        basket.addBagel(item.BGLE);
+        basket.addBagel(item.BGLP);
+        basket.addBagel(item.BGLO);
 
         Assertions.assertEquals(0, basket.checkCapacity());
     }
@@ -66,13 +65,14 @@ public class BasketTest {
     @Test
     public void testTotalCost() {
 
-        Item item = new Item("Bagel", 1);
+        ItemTypeEnum item = ItemTypeEnum.BGLE;
+        basket.addBagel(item.BGLE);
+        basket.addBagel(item.BGLP);
+        basket.addBagel(item.BGLO);
+        basket.addBagel(item.BGLO);
+        basket.removeBagel(item.BGLO);
 
-        basket.addBagel(item);
-        basket.addBagel(item);
-        basket.addBagel(item);
-
-        Assertions.assertEquals(3, basket.getTotalCost());
+        Assertions.assertEquals(1.37, basket.getTotalCost());
     }
 
 }
