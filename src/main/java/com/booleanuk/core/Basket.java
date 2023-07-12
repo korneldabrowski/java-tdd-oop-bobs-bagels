@@ -2,6 +2,8 @@ package com.booleanuk.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 public class Basket {
 
@@ -24,30 +26,47 @@ public class Basket {
         return basket;
     }
 
-    public void addBagel(Item item) {
+    public void addBagel(ItemTypeEnum itemType) {
         if (checkBasket()) {
-            basket.add(item);
-            totalCost += item.getCost();
+            Optional<Item> existingItem = basket.stream()
+                    .filter(item -> item.getType().equals(itemType))
+                    .findFirst();
+
+            if (existingItem.isPresent()) {
+                existingItem.get().setCount(existingItem.get().getCount() + 1);
+            } else {
+                basket.add(new Item(itemType, 1));
+            }
+            totalCost += itemType.getPrice();
         } else {
             System.out.println("Basket is full");
         }
     }
 
-    public void removeBagel(Item item) {
-        if (basket.contains(item)) {
-            basket.remove(item);
-            totalCost -= item.getCost();
+    public void removeBagel(ItemTypeEnum itemType) {
+        Optional<Item> existingItem = basket.stream()
+                .filter(item -> item.getType().equals(itemType))
+                .findFirst();
+        if (existingItem.isPresent()) {
+            if(existingItem.get().getCount() > 1) {
+                existingItem.get().setCount(existingItem.get().getCount() - 1);
+            }else{
+                basket.remove(existingItem.get());
+            }
+            totalCost -= itemType.getPrice();
+
         } else {
             System.out.println("Bagel not in basket");
         }
+
     }
 
     public int getBasketSize() {
-        return basket.size();
+        return basket.stream().mapToInt(Item::getCount).sum();
     }
 
     public int checkCapacity() {
-        return capacity - basket.size();
+        return capacity - getBasketSize();
     }
 
     public void setCapacity(int capacity) {
@@ -59,7 +78,7 @@ public class Basket {
     }
 
     private boolean checkBasket() {
-        return basket.size() == 0;
+        return getBasketSize() < this.capacity;
     };
 
 }
