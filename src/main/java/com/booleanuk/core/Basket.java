@@ -3,7 +3,7 @@ package com.booleanuk.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public class Basket {
 
@@ -23,42 +23,36 @@ public class Basket {
     }
 
     public List<Item> getList() {
-        return basket;
+        return new ArrayList<>(basket); // Return a copy of the list to avoid external modifications
     }
 
     public void addBagel(ItemTypeEnum itemType) {
-        if (checkBasket()) {
-            Optional<Item> existingItem = basket.stream()
-                    .filter(item -> item.getType().equals(itemType))
-                    .findFirst();
-
-            if (existingItem.isPresent()) {
-                existingItem.get().setCount(existingItem.get().getCount() + 1);
-            } else {
-                basket.add(new Item(itemType, 1));
-            }
-            totalCost += itemType.getPrice();
-        } else {
+        if (!checkBasketCapacity()) {
             System.out.println("Basket is full");
+            return;
         }
+
+        Optional<Item> existingItem = findItemByType(itemType);
+
+        existingItem.ifPresentOrElse(
+                item -> updateItemCount(item, item.getCount() + 1),
+                () -> basket.add(new Item(itemType, 1)));
+
+        totalCost += itemType.getPrice();
     }
 
     public void removeBagel(ItemTypeEnum itemType) {
-        Optional<Item> existingItem = basket.stream()
-                .filter(item -> item.getType().equals(itemType))
-                .findFirst();
-        if (existingItem.isPresent()) {
-            if(existingItem.get().getCount() > 1) {
-                existingItem.get().setCount(existingItem.get().getCount() - 1);
-            }else{
-                basket.remove(existingItem.get());
+        Optional<Item> existingItem = findItemByType(itemType);
+
+        existingItem.ifPresent(item -> {
+            if (item.getCount() > 1) {
+                updateItemCount(item, item.getCount() - 1);
+            } else {
+                basket.remove(item);
             }
-            totalCost -= itemType.getPrice();
+        });
 
-        } else {
-            System.out.println("Bagel not in basket");
-        }
-
+        totalCost -= itemType.getPrice();
     }
 
     public int getBasketSize() {
@@ -73,12 +67,22 @@ public class Basket {
         this.capacity = capacity;
     }
 
-    public int getTotalCost() {
+    public double getTotalCost() {
         return totalCost;
     }
 
-    private boolean checkBasket() {
-        return getBasketSize() < this.capacity;
-    };
+    private boolean checkBasketCapacity() {
+        return getBasketSize() < capacity;
+    }
+
+    private void updateItemCount(Item item, int countChange) {
+        item.setCount(countChange);
+    }
+
+    private Optional<Item> findItemByType(ItemTypeEnum itemType) {
+        return basket.stream()
+                .filter(item -> item.getType() == itemType)
+                .findFirst();
+    }
 
 }
