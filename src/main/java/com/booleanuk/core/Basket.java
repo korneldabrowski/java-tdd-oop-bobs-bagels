@@ -10,16 +10,16 @@ public class Basket {
     private static final int DEFAULT_CAPACITY = 10;
 
     private List<Item> basket;
-    private int capacity = DEFAULT_CAPACITY;
-    private int totalCost;
+    private int capacity;
+    private double totalCost;
 
     public Basket() {
-        basket = new ArrayList<Item>();
+        this(DEFAULT_CAPACITY);
     }
 
     public Basket(int capacity) {
         this.capacity = capacity;
-        basket = new ArrayList<Item>();
+        basket = new ArrayList<>();
     }
 
     public List<Item> getList() {
@@ -65,6 +65,7 @@ public class Basket {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+        adjustBasketCapacity();
     }
 
     public double getTotalCost() {
@@ -85,4 +86,9 @@ public class Basket {
                 .findFirst();
     }
 
+    private void adjustBasketCapacity() {
+        basket = basket.stream()
+                .limit(capacity)
+                .collect(Collectors.toList());
+    }
 }
