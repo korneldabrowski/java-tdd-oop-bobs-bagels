@@ -3,7 +3,6 @@ package com.booleanuk.extension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-
 public class DiscountManagerTest {
 
     Basket basket = new Basket();
@@ -129,11 +128,12 @@ public class DiscountManagerTest {
 
     @Test
     public void testCalculateDiscountWith14Bagels2Cofees() {
+
+        basket.setCapacity(16);
         basket.addItem(ItemTypeEnum.BGLE, 14);
         basket.addItem(ItemTypeEnum.COFB, 2);
 
-        Assertions.assertEquals(4.98, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(7.48, discountManager.calculateDiscount(basket));
     }
-
 
 }
