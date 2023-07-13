@@ -96,7 +96,7 @@ public class DiscountManager {
     public  HashMap<Item, Double> discountAmounts(){
         HashMap<Item, Double> discounts = new HashMap<>();
         finalPrize.forEach((key, value)->{
-            double discount = key.getCount() * key.getType().getPrice() - value;
+            double discount = discountMap.get(key.getType())[0] * key.getType().getPrice() - value;
             if (discount>0){
                 discounts.put(key, discount);
             }
