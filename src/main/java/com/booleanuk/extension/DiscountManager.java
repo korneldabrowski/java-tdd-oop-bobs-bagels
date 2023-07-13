@@ -31,6 +31,10 @@ public class DiscountManager {
         for (Item item : basket) {
             ItemTypeEnum itemType = item.getType();
 
+            if (!discountMap.containsKey(itemType)) {
+                continue;
+            }
+
             if (itemType == ItemTypeEnum.COFB) {
                 coffeeCount += item.getCount();
                 continue;
@@ -38,7 +42,7 @@ public class DiscountManager {
 
             double[] discount = discountMap.get(itemType);
 
-            if (!hasMinimumCount(item, discount)) {
+            if (!hasMinimumCount(item, discount) && itemType.getName() == "Bagel") {
                 undiscountedBagelCount += item.getCount();
                 continue;
             }
@@ -47,7 +51,7 @@ public class DiscountManager {
             double remainingCount = item.getCount() - (discount[0] * discountMultiplier);
             totalDiscount += calculateDiscountAmount(discount, discountMultiplier);
 
-            if (remainingCount > 0) {
+            if (remainingCount > 0 && itemType.getName() == "Bagel") {
                 undiscountedBagelCount += remainingCount;
             }
         }
