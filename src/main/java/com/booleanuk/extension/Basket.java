@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Basket implements Receipt{
+public class Basket implements Receipt {
 
     private static final int DEFAULT_CAPACITY = 10;
 
@@ -26,24 +26,11 @@ public class Basket implements Receipt{
     }
 
     public void addItem(ItemTypeEnum itemType) {
-        if (!checkBasket()) {
-            System.out.println("Basket is full");
-            return;
-        }
-
-        Optional<Item> existingItem = findItemByType(itemType);
-
-        existingItem.ifPresent(item -> updateItemCount(itemType, 1));
-
-        if (!existingItem.isPresent()) {
-            basket.add(new Item(itemType, 1));
-        }
-
-        totalCost += itemType.getPrice();
+        addItem(itemType, 1);
     }
 
     public void addItem(ItemTypeEnum itemType, int count) {
-        if (!checkBasket()) {
+        if (!checkBasket() || count > checkCapacity()) {
             System.out.println("Basket is full");
             return;
         }
@@ -58,7 +45,6 @@ public class Basket implements Receipt{
 
         totalCost += (itemType.getPrice() * count);
     }
-
 
     public void removeItem(ItemTypeEnum itemType) {
         Optional<Item> existingItem = findItemByType(itemType);
