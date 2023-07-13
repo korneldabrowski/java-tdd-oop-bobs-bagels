@@ -41,12 +41,13 @@ public class DiscountManagerTest {
     @Test
     public void testCalculateDiscountWith13Bagels() {
 
-        basket.setCapacity(13);
+        basket.setCapacity(14);
 
         for (int i = 0; i < 13; i++) {
             basket.addItem(ItemTypeEnum.BGLO);
         }
 
+        System.out.println(discountManager.calculateDiscount(basket));
         Assertions.assertEquals(4.98, discountManager.calculateDiscount(basket));
     }
 
@@ -115,7 +116,12 @@ public class DiscountManagerTest {
         basket.addItem(ItemTypeEnum.COFB);
         basket.addItem(ItemTypeEnum.COFB);
         basket.addItem(ItemTypeEnum.COFB);
-        Assertions.assertEquals(0, discountManager.calculateDiscount(basket));
+        basket.addItem(ItemTypeEnum.COFB);
+        basket.addItem(ItemTypeEnum.COFB);
+        basket.addItem(ItemTypeEnum.COFB);
+
+        basket.addItem(ItemTypeEnum.BGLE, 4);
+        Assertions.assertEquals(5, discountManager.calculateDiscount(basket));
     }
 
     @Test

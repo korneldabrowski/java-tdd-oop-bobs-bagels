@@ -48,7 +48,9 @@ public class DiscountManager {
             }
 
             int discountMultiplier = calculateDiscountMultiplier(item, discount);
+
             double remainingCount = item.getCount() - (discount[0] * discountMultiplier);
+
             System.out.println(item);
             this.finalPrize.put(item, new Double[]{calculateDiscountAmount(discount, discountMultiplier), Double.parseDouble("" +discountMultiplier)});
             totalDiscount += calculateDiscountAmount(discount, discountMultiplier);
@@ -59,8 +61,7 @@ public class DiscountManager {
         }
 
         if (undiscountedBagelCount > 0 && coffeeCount > 0) {
-            totalDiscount += calculateCoffeeDiscount(coffeeCount);
-            // item, final price, multiplier
+            totalDiscount += calculateCoffeeDiscount(Math.min(coffeeCount, undiscountedBagelCount));            // item, final price, multiplier
             this.finalPrize.put(this.coffee, new Double[]{calculateCoffeeDiscount(coffeeCount), Double.parseDouble("" +coffeeCount)});
         }
 
