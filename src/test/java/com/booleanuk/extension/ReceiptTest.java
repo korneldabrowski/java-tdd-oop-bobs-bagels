@@ -3,8 +3,6 @@ package com.booleanuk.extension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-import java.util.regex.Pattern;
 
 public class ReceiptTest {
     @Test

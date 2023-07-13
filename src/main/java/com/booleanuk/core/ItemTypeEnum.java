@@ -31,15 +31,4 @@ public enum ItemTypeEnum {
         this.price = price;
     }
 
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public String getVariant() {
-//        return variant;
-//    }
-//
-//    public double getPrice() {
-//        return price;
-//    }
 }
