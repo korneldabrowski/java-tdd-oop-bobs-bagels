@@ -6,7 +6,7 @@ public class DiscountManager {
 
     private HashMap<ItemTypeEnum, double[]> discountMap;
 
-    private HashMap<Item, Double> finalPrize;
+    private HashMap<Item, Double> finalPrize = new HashMap<>();
     private Item coffee;
 
     public DiscountManager() {
@@ -49,7 +49,8 @@ public class DiscountManager {
 
             int discountMultiplier = calculateDiscountMultiplier(item, discount);
             double remainingCount = item.getCount() - (discount[0] * discountMultiplier);
-            finalPrize.put(item, Double.parseDouble(""+calculateDiscountAmount(discount, discountMultiplier)));
+            System.out.println(item);
+            this.finalPrize.put(item, calculateDiscountAmount(discount, discountMultiplier));
             totalDiscount += calculateDiscountAmount(discount, discountMultiplier);
 
             if (remainingCount > 0 && itemType.getName() == "Bagel") {
@@ -59,7 +60,7 @@ public class DiscountManager {
 
         if (undiscountedBagelCount > 0 && coffeeCount > 0) {
             totalDiscount += calculateCoffeeDiscount(coffeeCount);
-            finalPrize.put(this.coffee, Double.parseDouble(calculateCoffeeDiscount(coffeeCount)+""));
+            this.finalPrize.put(this.coffee, Double.parseDouble(calculateCoffeeDiscount(coffeeCount) + ""));
         }
 
         totalDiscount = roundAvoid(totalDiscount, 2);
@@ -88,7 +89,7 @@ public class DiscountManager {
         return Math.round(value * scale) / scale;
     }
 
-    public HashMap<Item, Double> getFinalPrize(){
+    public HashMap<Item, Double> getFinalPrize() {
         return this.finalPrize;
     }
 }
