@@ -25,7 +25,7 @@ public interface Receipt {
     default String receiptWithDiscount(Basket basket) {
         DiscountManager discountManager = new DiscountManager();
         double totalDiscount = discountManager.calculateDiscount(basket);
-        HashMap<Item, Double> finalPrize = discountManager.getFinalPrize();
+        HashMap<Item, Double[]> finalPrize = discountManager.getFinalPrize();
 
         StringBuilder receiptBuilder = this.begginning();
 

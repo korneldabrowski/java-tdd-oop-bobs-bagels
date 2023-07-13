@@ -6,7 +6,7 @@ public class DiscountManager {
 
     private HashMap<ItemTypeEnum, double[]> discountMap;
 
-    private HashMap<Item, Double> finalPrize = new HashMap<>();
+    private HashMap<Item, Double[]> finalPrize = new HashMap<>();
     private Item coffee;
 
     public DiscountManager() {
@@ -50,7 +50,7 @@ public class DiscountManager {
             int discountMultiplier = calculateDiscountMultiplier(item, discount);
             double remainingCount = item.getCount() - (discount[0] * discountMultiplier);
             System.out.println(item);
-            this.finalPrize.put(item, calculateDiscountAmount(discount, discountMultiplier));
+            this.finalPrize.put(item, new Double[]{calculateDiscountAmount(discount, discountMultiplier), Double.parseDouble("" +discountMultiplier)});
             totalDiscount += calculateDiscountAmount(discount, discountMultiplier);
 
             if (remainingCount > 0 && itemType.getName() == "Bagel") {
@@ -60,7 +60,8 @@ public class DiscountManager {
 
         if (undiscountedBagelCount > 0 && coffeeCount > 0) {
             totalDiscount += calculateCoffeeDiscount(coffeeCount);
-            this.finalPrize.put(this.coffee, Double.parseDouble(calculateCoffeeDiscount(coffeeCount) + ""));
+            // item, final price, multiplier
+            this.finalPrize.put(this.coffee, new Double[]{calculateCoffeeDiscount(coffeeCount), Double.parseDouble("" +coffeeCount)});
         }
 
         totalDiscount = roundAvoid(totalDiscount, 2);
@@ -89,14 +90,15 @@ public class DiscountManager {
         return Math.round(value * scale) / scale;
     }
 
-    public HashMap<Item, Double> getFinalPrize() {
+    public HashMap<Item, Double[]> getFinalPrize() {
         return this.finalPrize;
     }
 
     public  HashMap<Item, Double> discountAmounts(){
         HashMap<Item, Double> discounts = new HashMap<>();
         finalPrize.forEach((key, value)->{
-            double discount = discountMap.get(key.getType())[0] * key.getType().getPrice() - value;
+            // multiplie * price - price after discount
+            double discount = value[1] * key.getType().getPrice() - value[0];
             if (discount>0){
                 discounts.put(key, discount);
             }
