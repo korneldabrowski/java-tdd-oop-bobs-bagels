@@ -1,10 +1,10 @@
-package com.booleanuk.core;
+package com.booleanuk.extension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Basket {
+public class Basket implements Receipt{
 
     private static final int DEFAULT_CAPACITY = 10;
 
