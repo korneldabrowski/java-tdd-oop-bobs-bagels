@@ -48,9 +48,11 @@ public class DiscountManager {
             }
 
             int discountMultiplier = calculateDiscountMultiplier(item, discount);
+
             double remainingCount = item.getCount() - (discount[0] * discountMultiplier);
-            System.out.println(item);
+
             this.finalPrize.put(item, calculateDiscountAmount(discount, discountMultiplier));
+
             totalDiscount += calculateDiscountAmount(discount, discountMultiplier);
 
             if (remainingCount > 0 && itemType.getName() == "Bagel") {
@@ -59,7 +61,7 @@ public class DiscountManager {
         }
 
         if (undiscountedBagelCount > 0 && coffeeCount > 0) {
-            totalDiscount += calculateCoffeeDiscount(coffeeCount);
+            totalDiscount += calculateCoffeeDiscount(Math.min(coffeeCount, undiscountedBagelCount));
             this.finalPrize.put(this.coffee, Double.parseDouble(calculateCoffeeDiscount(coffeeCount) + ""));
         }
 
@@ -80,8 +82,8 @@ public class DiscountManager {
         return discount[1] * discountMultiplier;
     }
 
-    private double calculateCoffeeDiscount(int coffeeCount) {
-        return coffeeCount * discountMap.get(ItemTypeEnum.COFB)[1];
+    private double calculateCoffeeDiscount(int multiplier) {
+        return multiplier * discountMap.get(ItemTypeEnum.COFB)[1];
     }
 
     private static double roundAvoid(double value, int places) {
@@ -93,11 +95,11 @@ public class DiscountManager {
         return this.finalPrize;
     }
 
-    public  HashMap<Item, Double> discountAmounts(){
+    public HashMap<Item, Double> discountAmounts() {
         HashMap<Item, Double> discounts = new HashMap<>();
-        finalPrize.forEach((key, value)->{
+        finalPrize.forEach((key, value) -> {
             double discount = key.getCount() * key.getType().getPrice() - value;
-            if (discount>0){
+            if (discount > 0) {
                 discounts.put(key, discount);
             }
         });
