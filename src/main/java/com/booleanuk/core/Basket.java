@@ -43,7 +43,7 @@ public class Basket {
     }
 
     public void addItem(ItemTypeEnum itemType, int count) {
-        if (getBasketSize() + count > this.capacity) {
+        if (!checkBasket()) {
             System.out.println("Basket is full");
             return;
         }
