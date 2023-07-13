@@ -92,4 +92,15 @@ public class DiscountManager {
     public HashMap<Item, Double> getFinalPrize() {
         return this.finalPrize;
     }
+
+    public  HashMap<Item, Double> discountAmounts(){
+        HashMap<Item, Double> discounts = new HashMap<>();
+        finalPrize.forEach((key, value)->{
+            double discount = key.getCount() * key.getType().getPrice() - value;
+            if (discount>0){
+                discounts.put(key, discount);
+            }
+        });
+        return discounts;
+    }
 }
