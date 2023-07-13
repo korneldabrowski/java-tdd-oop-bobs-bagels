@@ -3,8 +3,6 @@ package com.booleanuk.extension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.booleanuk.core.Basket;
-import com.booleanuk.core.ItemTypeEnum;
 
 public class DiscountManagerTest {
 
@@ -18,7 +16,7 @@ public class DiscountManagerTest {
             basket.addItem(ItemTypeEnum.BGLO);
         }
 
-        Assertions.assertEquals(0, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(0, discountManager.calculateDiscount(basket));
     }
 
     @Test
@@ -28,7 +26,7 @@ public class DiscountManagerTest {
             basket.addItem(ItemTypeEnum.BGLO);
         }
 
-        Assertions.assertEquals(2.49, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(2.49, discountManager.calculateDiscount(basket));
     }
 
     @Test
@@ -38,7 +36,7 @@ public class DiscountManagerTest {
             basket.addItem(ItemTypeEnum.BGLO);
         }
 
-        Assertions.assertEquals(2.49, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(2.49, discountManager.calculateDiscount(basket));
     }
 
     @Test
@@ -50,7 +48,7 @@ public class DiscountManagerTest {
             basket.addItem(ItemTypeEnum.BGLO);
         }
 
-        Assertions.assertEquals(4.98, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(4.98, discountManager.calculateDiscount(basket));
     }
 
     @Test
@@ -62,7 +60,7 @@ public class DiscountManagerTest {
             basket.addItem(ItemTypeEnum.BGLO);
         }
 
-        Assertions.assertEquals(9.96, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(9.96, discountManager.calculateDiscount(basket));
     }
 
     @Test
@@ -77,7 +75,7 @@ public class DiscountManagerTest {
         basket.addItem(ItemTypeEnum.COFB);
         basket.addItem(ItemTypeEnum.BGLE);
 
-        Assertions.assertEquals(11.21, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(11.21, discountManager.calculateDiscount(basket));
     }
 
     @Test
@@ -86,7 +84,7 @@ public class DiscountManagerTest {
         basket.addItem(ItemTypeEnum.COFB);
         basket.addItem(ItemTypeEnum.BGLE);
 
-        Assertions.assertEquals(1.25, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(1.25, discountManager.calculateDiscount(basket));
     }
 
     @Test
@@ -98,18 +96,18 @@ public class DiscountManagerTest {
         basket.addItem(ItemTypeEnum.BGLE);
         basket.addItem(ItemTypeEnum.BGLE);
 
-        Assertions.assertEquals(2.50, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(2.50, discountManager.calculateDiscount(basket));
     }
 
     @Test
     public void testCalculateDiscountWithNoItems() {
-        Assertions.assertEquals(0, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(0, discountManager.calculateDiscount(basket));
     }
 
     @Test
     public void testCalculateDiscountWithOneCoffee() {
         basket.addItem(ItemTypeEnum.COFB);
-        Assertions.assertEquals(0, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(0, discountManager.calculateDiscount(basket));
     }
 
     @Test
@@ -117,7 +115,7 @@ public class DiscountManagerTest {
         basket.addItem(ItemTypeEnum.COFB);
         basket.addItem(ItemTypeEnum.COFB);
         basket.addItem(ItemTypeEnum.COFB);
-        Assertions.assertEquals(0, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(0, discountManager.calculateDiscount(basket));
     }
 
     @Test
@@ -125,7 +123,7 @@ public class DiscountManagerTest {
         basket.addItem(ItemTypeEnum.BGLO);
         basket.addItem(ItemTypeEnum.BGLP);
         basket.addItem(ItemTypeEnum.BGLE);
-        Assertions.assertEquals(0, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(0, discountManager.calculateDiscount(basket));
     }
 
 }

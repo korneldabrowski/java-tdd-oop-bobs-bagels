@@ -1,14 +1,13 @@
 package com.booleanuk.extension;
 
 import java.util.HashMap;
-import java.util.List;
-
-import com.booleanuk.core.Item;
-import com.booleanuk.core.ItemTypeEnum;
 
 public class DiscountManager {
 
     private HashMap<ItemTypeEnum, double[]> discountMap;
+
+    private HashMap<Item, Double> finalPrize;
+    private Item coffee;
 
     public DiscountManager() {
         discountMap = initializeDiscounts();
@@ -23,12 +22,12 @@ public class DiscountManager {
         return discounts;
     }
 
-    public double calculateDiscount(List<Item> basket) {
+    public double calculateDiscount(Basket basket) {
         double totalDiscount = 0;
         int coffeeCount = 0;
         int undiscountedBagelCount = 0;
 
-        for (Item item : basket) {
+        for (Item item : basket.getBasket()) {
             ItemTypeEnum itemType = item.getType();
 
             if (!discountMap.containsKey(itemType)) {
@@ -37,6 +36,7 @@ public class DiscountManager {
 
             if (itemType == ItemTypeEnum.COFB) {
                 coffeeCount += item.getCount();
+                this.coffee = item;
                 continue;
             }
 
@@ -49,6 +49,7 @@ public class DiscountManager {
 
             int discountMultiplier = calculateDiscountMultiplier(item, discount);
             double remainingCount = item.getCount() - (discount[0] * discountMultiplier);
+            finalPrize.put(item, Double.parseDouble(""+calculateDiscountAmount(discount, discountMultiplier)));
             totalDiscount += calculateDiscountAmount(discount, discountMultiplier);
 
             if (remainingCount > 0 && itemType.getName() == "Bagel") {
@@ -58,6 +59,7 @@ public class DiscountManager {
 
         if (undiscountedBagelCount > 0 && coffeeCount > 0) {
             totalDiscount += calculateCoffeeDiscount(coffeeCount);
+            finalPrize.put(this.coffee, Double.parseDouble(calculateCoffeeDiscount(coffeeCount)+""));
         }
 
         totalDiscount = roundAvoid(totalDiscount, 2);
@@ -84,5 +86,9 @@ public class DiscountManager {
     private static double roundAvoid(double value, int places) {
         double scale = Math.pow(10, places);
         return Math.round(value * scale) / scale;
+    }
+
+    public HashMap<Item, Double> getFinalPrize(){
+        return this.finalPrize;
     }
 }
