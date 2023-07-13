@@ -1,33 +1,34 @@
 package com.booleanuk.extension;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public interface Receipt {
-    default String normalReceipt(Basket basket, LocalDateTime date){
+    default String normalReceipt(Basket basket){
+        StringBuilder receiptBuilder = new StringBuilder();
 
-        String receipt1 = "    ~~~ Bob's Bagels ~~~\n" +
-                "\n" +
-                "    2021-03-16 21:38:44\n" +
-                "\n" +
-                "----------------------------\n" +
-                "\n" +
-                "Onion Bagel        2   £0.98\n" +
-                "Plain Bagel        12  £3.99\n" +
-                "Everything Bagel   6   £2.49\n" +
-                "Coffee             3   £2.97\n" +
-                "\n" +
-                "----------------------------\n" +
-                "\n" +
-                "Total                 £10.43\n" +
-                "\n" +
-                "        Thank you\n" +
-                "      for your order!";
-        String receipt ="    ~~~ Bob's Bagels ~~~\n" +
-        "\n";
-        receipt+="    " + LocalDateTime.now() +"\n" +
+        receiptBuilder.append("    ~~~ Bob's Bagels ~~~\n\n");
 
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        receiptBuilder.append(now.format(formatter)).append("\n\n");
 
+        receiptBuilder.append("----------------------------\n\n");
 
-        return receipt;
+        for (Item item : basket.getBasket()) {
+            String itemName = item.getType().getVariant() + " " + item.getType().getName();
+            int count = item.getCount();
+            double itemCost = item.getType().getPrice();
+            //TODO ten normalny koszt
+            double itemTotalCost = count * itemCost;
+            receiptBuilder.append(String.format("%-18s %2d   $%.2f\n", itemName, count, itemTotalCost));
+        }
+
+        receiptBuilder.append("\n----------------------------\n\n");
+        receiptBuilder.append(String.format("Total                 $%.2f\n\n", basket.getTotalCost()));
+        receiptBuilder.append("        Thank you\n");
+        receiptBuilder.append("      for your order!");
+
+        return receiptBuilder.toString();
     }
 }

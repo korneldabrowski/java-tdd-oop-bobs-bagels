@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ItemTypeEnum {
-    BGLO("Bagel", "onion", 0.49),
+    BGLO("Bagel", "Onion", 0.49),
     BGLP("Bagel", "Plain", 0.39),
     BGLE("Bagel", "Everything", 0.49),
     BGLS("Bagel", "Sesame", 0.49),

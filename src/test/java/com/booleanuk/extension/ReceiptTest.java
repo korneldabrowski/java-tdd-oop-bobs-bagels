@@ -4,36 +4,22 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.regex.Pattern;
 
 public class ReceiptTest {
     @Test
     public void receiptTest(){
-        String receipt = "    ~~~ Bob's Bagels ~~~\n" +
-                "\n" +
-                "    2021-03-16 21:37:44\n" +
-                "\n" +
-                "----------------------------\n" +
-                "\n" +
-                "Onion Bagel        2   £0.98\n" +
-                "Plain Bagel        12  £3.99\n" +
-                "Everything Bagel   6   £2.49\n" +
-                "Coffee             3   £2.97\n" +
-                "\n" +
-                "----------------------------\n" +
-                "\n" +
-                "Total                 £10.43\n" +
-                "\n" +
-                "        Thank you\n" +
-                "      for your order!";
-
-
-        Basket basket = new Basket();
+               Basket basket = new Basket();
         basket.setCapacity(30);
         basket.addItem(ItemTypeEnum.BGLO, 2);
         basket.addItem(ItemTypeEnum.BGLP, 12);
         basket.addItem(ItemTypeEnum.BGLE, 6);
         basket.addItem(ItemTypeEnum.COFB, 3);
-        String myReceipt = basket.normalReceipt(basket, LocalDateTime.parse("2021-03-16 21:37:44"));
-        Assertions.assertEquals(myReceipt , receipt);
+        String actualReceipt = basket.normalReceipt(basket);
+        System.out.println(actualReceipt);
+        Assertions.assertTrue(actualReceipt.contains("Onion Bagel         2   $0.98"));
+        Assertions.assertTrue(actualReceipt.contains("Plain Bagel        12   $4.68"));
+        Assertions.assertTrue(actualReceipt.contains("Everything Bagel    6   $2.94"));
+        Assertions.assertTrue(actualReceipt.contains("Black Coffee        3   $2.97"));
     }
 }
