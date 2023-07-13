@@ -23,14 +23,11 @@ public interface Receipt {
     }
 
     default String receiptWithDiscount(Basket basket) {
-        DiscountManager discountManager = new DiscountManager();
-        double totalDiscount = discountManager.calculateDiscount(basket);
-        HashMap<Item, Double[]> finalPrize = discountManager.getFinalPrize();
 
         StringBuilder receiptBuilder = this.begginning();
+        double total = basket.totalCostWithDiscount();
 
-
-        double totalSavings = 0.0;
+        double totalSavings = basket.getTotalCost() - total;
 
         for (Item item : basket.getBasket()) {
             String itemName = item.getType().getVariant() + " " + item.getType().getName();
@@ -38,20 +35,20 @@ public interface Receipt {
             double itemCost = item.getType().getPrice();
             double itemTotalCost = count * itemCost;
 
-            HashMap<Item, Double> discountAmounts = discountManager.discountAmounts();
-
-            double discountAmount = calculateDiscount(item, basket,discountAmounts, totalDiscount, discountManager);
+            double discountAmount = itemTotalCost - item.getPrice();
+            if (item.getType().equals(ItemTypeEnum.COFB)){
+                discountAmount = basket.getDiscountOnCoffee();
+            }
 
             if (discountAmount > 0.0) {
                 receiptBuilder.append(String.format("%-18s %2d   $%.2f\n", itemName, count, itemTotalCost));
                 receiptBuilder.append(String.format("%-20s (-$%.2f)\n", "", discountAmount));
-                totalSavings += discountAmount;
             } else {
                 receiptBuilder.append(String.format("%-18s %2d   $%.2f\n", itemName, count, itemTotalCost));
             }
         }
 
-        receiptBuilder = ending(receiptBuilder, true, totalSavings, totalDiscount);
+        receiptBuilder = ending(receiptBuilder, true, totalSavings, total);
 
         return receiptBuilder.toString();
     }
@@ -82,19 +79,6 @@ public interface Receipt {
     }
 
 
-    default double calculateDiscount(Item item, Basket basket, HashMap<Item, Double> discountAmounts, double totalDiscount, DiscountManager discountManager){
-        double discountAmount = 0.0;
-
-        if (discountAmounts.containsKey(item)){
-            discountAmount = discountAmounts.get(item);
-        }
-
-        if (item.getType().equals(ItemTypeEnum.COFB)) {
-            discountAmount = basket.getTotalCost() - totalDiscount - discountManager.discountAmounts().values().stream().reduce(0.0,Double::sum);
-        }
-
-        return discountAmount;
-    }
 
 
 }

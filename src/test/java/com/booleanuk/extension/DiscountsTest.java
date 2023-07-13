@@ -3,10 +3,9 @@ package com.booleanuk.extension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class DiscountManagerTest {
+public class DiscountsTest {
 
     Basket basket = new Basket();
-    DiscountManager discountManager = new DiscountManager();
 
     @Test
     public void testCalculateDiscountWith5Bagels() {
@@ -15,7 +14,7 @@ public class DiscountManagerTest {
             basket.addItem(ItemTypeEnum.BGLO);
         }
 
-        Assertions.assertEquals(0, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(2.45, basket.totalCostWithDiscount());
     }
 
     @Test
@@ -25,7 +24,7 @@ public class DiscountManagerTest {
             basket.addItem(ItemTypeEnum.BGLO);
         }
 
-        Assertions.assertEquals(2.49, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(2.49, basket.totalCostWithDiscount());
     }
 
     @Test
@@ -35,7 +34,7 @@ public class DiscountManagerTest {
             basket.addItem(ItemTypeEnum.BGLO);
         }
 
-        Assertions.assertEquals(2.49, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(2.98, basket.totalCostWithDiscount());
     }
 
     @Test
@@ -47,12 +46,11 @@ public class DiscountManagerTest {
             basket.addItem(ItemTypeEnum.BGLO);
         }
 
-        System.out.println(discountManager.calculateDiscount(basket));
-        Assertions.assertEquals(4.98, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(5.47, basket.totalCostWithDiscount());
     }
 
     @Test
-    public void testCalculateDiscountWith26Bagels() {
+    public void testCalculateDiscountWith24Bagels() {
 
         basket.setCapacity(26);
 
@@ -60,7 +58,7 @@ public class DiscountManagerTest {
             basket.addItem(ItemTypeEnum.BGLO);
         }
 
-        Assertions.assertEquals(9.96, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(9.96, basket.totalCostWithDiscount());
     }
 
     @Test
@@ -75,17 +73,17 @@ public class DiscountManagerTest {
         basket.addItem(ItemTypeEnum.COFB);
         basket.addItem(ItemTypeEnum.BGLE);
 
-        Assertions.assertEquals(11.21, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(11.21, basket.totalCostWithDiscount());
     }
 
     @Test
-    public void testCalculateDiscountWithCofeAndBagel() {
+    public void testCalculateDiscountWithCoffeeAndBagelAndFilling() {
 
         basket.addItem(ItemTypeEnum.COFB);
         basket.addItem(ItemTypeEnum.BGLE);
         basket.addItem(ItemTypeEnum.FILB, 4);
 
-        Assertions.assertEquals(1.25, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(1.73, basket.totalCostWithDiscount());
     }
 
     @Test
@@ -96,32 +94,36 @@ public class DiscountManagerTest {
         basket.addItem(ItemTypeEnum.BGLE);
         basket.addItem(ItemTypeEnum.BGLE);
         basket.addItem(ItemTypeEnum.BGLE);
+        basket.addItem(ItemTypeEnum.COFL);
 
-        Assertions.assertEquals(2.50, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(4.28, basket.totalCostWithDiscount());
     }
 
     @Test
     public void testCalculateDiscountWithNoItems() {
-        Assertions.assertEquals(0, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(0, basket.totalCostWithDiscount());
     }
 
     @Test
     public void testCalculateDiscountWithOneCoffee() {
         basket.addItem(ItemTypeEnum.COFB);
-        Assertions.assertEquals(0, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(0.99, basket.totalCostWithDiscount());
     }
 
     @Test
-    public void testCalculateDiscountWithMultipleCoffees() {
-        basket.addItem(ItemTypeEnum.COFB);
-        basket.addItem(ItemTypeEnum.COFB);
-        basket.addItem(ItemTypeEnum.COFB);
-        basket.addItem(ItemTypeEnum.COFB);
-        basket.addItem(ItemTypeEnum.COFB);
-        basket.addItem(ItemTypeEnum.COFB);
+    public void testCalculateDiscountWithMultipleCoffeesAndBagels() {
+        basket.addItem(ItemTypeEnum.COFB, 4);
+        basket.addItem(ItemTypeEnum.BGLE, 2);
+        basket.addItem(ItemTypeEnum.BGLP,2);
+        Assertions.assertEquals(5, basket.totalCostWithDiscount());
+    }
 
-        basket.addItem(ItemTypeEnum.BGLE, 4);
-        Assertions.assertEquals(5, discountManager.calculateDiscount(basket));
+    @Test
+    public void testPlainBagelFirst() {
+        basket.addItem(ItemTypeEnum.COFB, 1);
+        basket.addItem(ItemTypeEnum.BGLE, 1);
+        basket.addItem(ItemTypeEnum.BGLP,1);
+        Assertions.assertEquals(1.74, basket.totalCostWithDiscount());
     }
 
     @Test
@@ -129,17 +131,17 @@ public class DiscountManagerTest {
         basket.addItem(ItemTypeEnum.BGLO);
         basket.addItem(ItemTypeEnum.BGLP);
         basket.addItem(ItemTypeEnum.BGLE);
-        Assertions.assertEquals(0, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(1.37, basket.totalCostWithDiscount());
     }
 
     @Test
     public void testCalculateDiscountWith14Bagels2Cofees() {
 
-        basket.setCapacity(16);
+        basket.setCapacity(20);
         basket.addItem(ItemTypeEnum.BGLE, 14);
-        basket.addItem(ItemTypeEnum.COFB, 2);
+        basket.addItem(ItemTypeEnum.COFB, 3);
 
-        Assertions.assertEquals(7.48, discountManager.calculateDiscount(basket));
+        Assertions.assertEquals(8.47, basket.totalCostWithDiscount());
     }
 
 }

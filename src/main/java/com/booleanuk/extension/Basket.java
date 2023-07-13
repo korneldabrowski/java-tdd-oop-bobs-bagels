@@ -1,6 +1,7 @@
 package com.booleanuk.extension;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,8 @@ public class Basket implements Receipt {
     private List<Item> basket;
     private int capacity = DEFAULT_CAPACITY;
     private double totalCost;
+
+    private double discountOnCoffee;
 
     public Basket() {
         basket = new ArrayList<Item>();
@@ -96,5 +99,79 @@ public class Basket implements Receipt {
                 .filter(item -> item.getType() == itemType)
                 .findFirst();
     }
+
+    public double bagelsWithoutDiscount(){
+        return basket.stream().filter(i-> i.getType().getName().equals("Bagel")).mapToDouble(Item::getWithoutDiscount).sum();
+    }
+
+    private double totalCostWithDiscountAndCoffee(){
+        return basket.stream().mapToDouble(Item::getPrice).sum();
+    }
+
+    public double totalCostWithDiscount(){
+        this.discountOnCoffee = 0.0;
+        this.basket.stream().forEach(Item::update);
+        double costWithoutCoffeeDisc = totalCostWithDiscountAndCoffee();
+        double discountOnCoffee = discountOnCoffee();
+        costWithoutCoffeeDisc -= discountOnCoffee;
+
+        return Math.round(costWithoutCoffeeDisc * 100.0) / 100.0;
+    }
+
+    private double discountOnCoffee(){
+
+        double discountOnCoffee = 0.0;
+        Optional<Item> coffeeBlackItem = basket.stream()
+                .filter(item -> item.getType() == ItemTypeEnum.COFB)
+                .findFirst();
+        if (coffeeBlackItem.isPresent()){
+            // apply discount to the cheapest bagels
+            Optional<Item> bagelPlainItem = basket.stream()
+                    .filter(item -> item.getType() == ItemTypeEnum.BGLP)
+                    .findFirst();
+            if(bagelPlainItem.isPresent()){
+                discountOnCoffee += 0.13 * Math.min(bagelPlainItem.get().getWithoutDiscount(),  coffeeBlackItem.get().getWithoutDiscount());
+                int bagelWithoutDiscount = bagelPlainItem.get().getWithoutDiscount();
+                bagelPlainItem.get().setWithoutDiscount(Math.max(bagelWithoutDiscount - coffeeBlackItem.get().getWithoutDiscount(), 0));
+                coffeeBlackItem.get().setWithoutDiscount(Math.max(coffeeBlackItem.get().getWithoutDiscount() - bagelWithoutDiscount, 0));
+            }
+            // apply to the rest
+
+            for (ItemTypeEnum bagelType : ItemTypeEnum.values()) {
+                if (bagelType.name().startsWith("BGL")) {
+                    Optional<Item> bagelItem = basket.stream()
+                            .filter(item -> item.getType() == bagelType)
+                            .findFirst();
+
+                    if (bagelItem.isPresent()) {
+                        discountOnCoffee += 0.23 * Math.min(bagelItem.get().getWithoutDiscount(), coffeeBlackItem.get().getWithoutDiscount());
+                        bagelItem.get().setWithoutDiscount(Math.max(bagelItem.get().getWithoutDiscount() - coffeeBlackItem.get().getWithoutDiscount(), 0));
+                        coffeeBlackItem.get().setWithoutDiscount(Math.max(coffeeBlackItem.get().getWithoutDiscount() - bagelItem.get().getWithoutDiscount(), 0));
+                    }
+                }
+            }
+        }
+        discountOnCoffee = Math.round(discountOnCoffee * 100.0) / 100.0;
+
+        this.discountOnCoffee = discountOnCoffee;
+        return discountOnCoffee;
+    }
+
+    public double getDiscountOnCoffee() {
+        return discountOnCoffee;
+    }
+
+    public static void main(String[] args) {
+        Basket b1 = new Basket();
+        b1.setCapacity(30);
+        b1.addItem(ItemTypeEnum.BGLE, 6);
+        b1.addItem(ItemTypeEnum.BGLP, 2);
+        b1.addItem(ItemTypeEnum.COFB, 1);
+//        System.out.println(b1.bagelsWithoutDiscount());
+        System.out.println(b1.totalCostWithDiscount());
+        System.out.println(b1.receiptWithDiscount(b1));
+        System.out.println(b1.normalReceipt(b1));
+    }
+
 
 }
