@@ -132,7 +132,7 @@ public class DiscountManagerTest {
         basket.addItem(ItemTypeEnum.BGLE, 14);
         basket.addItem(ItemTypeEnum.COFB, 2);
 
-        Assertions.assertEquals(4.98, discountManager.calculateDiscount(basket.getBasket()));
+        Assertions.assertEquals(4.98, discountManager.calculateDiscount(basket));
     }
 
 
