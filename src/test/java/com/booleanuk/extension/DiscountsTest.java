@@ -144,4 +144,14 @@ public class DiscountsTest {
         Assertions.assertEquals(8.47, basket.totalCostWithDiscount());
     }
 
+    @Test
+    public void differentTypesOfBagels(){
+        basket.setCapacity(50);
+        basket.addItem(ItemTypeEnum.BGLS, 2);
+        basket.addItem(ItemTypeEnum.BGLP, 15);
+        basket.addItem(ItemTypeEnum.BGLE, 7);
+        basket.addItem(ItemTypeEnum.COFB, 8);
+        Assertions.assertEquals(15.96, basket.totalCostWithDiscount());
+    }
+
 }

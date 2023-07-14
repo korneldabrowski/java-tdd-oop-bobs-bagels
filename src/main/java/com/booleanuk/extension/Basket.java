@@ -145,8 +145,9 @@ public class Basket implements Receipt {
 
                     if (bagelItem.isPresent()) {
                         discountOnCoffee += 0.23 * Math.min(bagelItem.get().getWithoutDiscount(), coffeeBlackItem.get().getWithoutDiscount());
-                        bagelItem.get().setWithoutDiscount(Math.max(bagelItem.get().getWithoutDiscount() - coffeeBlackItem.get().getWithoutDiscount(), 0));
-                        coffeeBlackItem.get().setWithoutDiscount(Math.max(coffeeBlackItem.get().getWithoutDiscount() - bagelItem.get().getWithoutDiscount(), 0));
+                        int bagelDiscountCount = bagelItem.get().getWithoutDiscount();
+                        bagelItem.get().setWithoutDiscount(Math.max(bagelDiscountCount - coffeeBlackItem.get().getWithoutDiscount(), 0));
+                        coffeeBlackItem.get().setWithoutDiscount(Math.max(coffeeBlackItem.get().getWithoutDiscount() - bagelDiscountCount, 0));
                     }
                 }
             }
