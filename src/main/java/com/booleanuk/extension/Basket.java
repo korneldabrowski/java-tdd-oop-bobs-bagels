@@ -8,6 +8,7 @@ import java.util.Optional;
 public class Basket implements Receipt {
 
     private static final int DEFAULT_CAPACITY = 10;
+    private static double coffeBaglel = 1.25;
 
     private List<Item> basket;
     private int capacity = DEFAULT_CAPACITY;
@@ -130,7 +131,7 @@ public class Basket implements Receipt {
                     .filter(item -> item.getType() == ItemTypeEnum.BGLP)
                     .findFirst();
             if(bagelPlainItem.isPresent()){
-                discountOnCoffee += 0.13 * Math.min(bagelPlainItem.get().getWithoutDiscount(),  coffeeBlackItem.get().getWithoutDiscount());
+                discountOnCoffee += (ItemTypeEnum.COFB.getPrice() + ItemTypeEnum.BGLP.getPrice() - coffeBaglel) * Math.min(bagelPlainItem.get().getWithoutDiscount(),  coffeeBlackItem.get().getWithoutDiscount());
                 int bagelWithoutDiscount = bagelPlainItem.get().getWithoutDiscount();
                 bagelPlainItem.get().setWithoutDiscount(Math.max(bagelWithoutDiscount - coffeeBlackItem.get().getWithoutDiscount(), 0));
                 coffeeBlackItem.get().setWithoutDiscount(Math.max(coffeeBlackItem.get().getWithoutDiscount() - bagelWithoutDiscount, 0));
@@ -144,7 +145,7 @@ public class Basket implements Receipt {
                             .findFirst();
 
                     if (bagelItem.isPresent()) {
-                        discountOnCoffee += 0.23 * Math.min(bagelItem.get().getWithoutDiscount(), coffeeBlackItem.get().getWithoutDiscount());
+                        discountOnCoffee += (ItemTypeEnum.COFB.getPrice() + bagelItem.get().getType().getPrice() - coffeBaglel) * Math.min(bagelItem.get().getWithoutDiscount(), coffeeBlackItem.get().getWithoutDiscount());
                         int bagelDiscountCount = bagelItem.get().getWithoutDiscount();
                         bagelItem.get().setWithoutDiscount(Math.max(bagelDiscountCount - coffeeBlackItem.get().getWithoutDiscount(), 0));
                         coffeeBlackItem.get().setWithoutDiscount(Math.max(coffeeBlackItem.get().getWithoutDiscount() - bagelDiscountCount, 0));
