@@ -2,13 +2,11 @@ package com.booleanuk.extension;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 public interface Receipt {
 
     default String normalReceipt(Basket basket){
-        StringBuilder receiptBuilder = this.begginning();
+        StringBuilder receiptBuilder = this.beginning();
 
         for (Item item : basket.getBasket()) {
             String itemName = item.getType().getVariant() + " " + item.getType().getName();
@@ -24,7 +22,7 @@ public interface Receipt {
 
     default String receiptWithDiscount(Basket basket) {
 
-        StringBuilder receiptBuilder = this.begginning();
+        StringBuilder receiptBuilder = this.beginning();
         double total = basket.totalCostWithDiscount();
 
         double totalSavings = basket.getTotalCost() - total;
@@ -53,7 +51,7 @@ public interface Receipt {
         return receiptBuilder.toString();
     }
 
-    default StringBuilder begginning(){
+    default StringBuilder beginning(){
         StringBuilder receiptBuilder = new StringBuilder();
 
         receiptBuilder.append("    ~~~ Bob's Bagels ~~~\n\n");

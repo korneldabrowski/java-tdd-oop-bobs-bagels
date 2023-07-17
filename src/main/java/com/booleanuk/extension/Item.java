@@ -35,11 +35,4 @@ public class Item {
         }
     }
 
-    public static void main(String[] args) {
-        Item item = new Item(ItemTypeEnum.BGLE, 7);
-        System.out.println(item);
-        Item item1 = new Item(ItemTypeEnum.COFB, 7);
-        System.out.println(item1);
-    }
-
 }

@@ -162,17 +162,5 @@ public class Basket implements Receipt {
         return discountOnCoffee;
     }
 
-    public static void main(String[] args) {
-        Basket b1 = new Basket();
-        b1.setCapacity(30);
-        b1.addItem(ItemTypeEnum.BGLE, 6);
-        b1.addItem(ItemTypeEnum.BGLP, 2);
-        b1.addItem(ItemTypeEnum.COFB, 1);
-//        System.out.println(b1.bagelsWithoutDiscount());
-        System.out.println(b1.totalCostWithDiscount());
-        System.out.println(b1.receiptWithDiscount(b1));
-        System.out.println(b1.normalReceipt(b1));
-    }
-
 
 }
