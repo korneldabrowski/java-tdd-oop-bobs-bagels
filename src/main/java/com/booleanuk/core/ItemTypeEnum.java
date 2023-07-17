@@ -1,8 +1,6 @@
 package com.booleanuk.core;
 
-import lombok.Getter;
 
-@Getter
 public enum ItemTypeEnum {
     BGLO("Bagel", "Onion", 0.49),
     BGLP("Bagel", "Plain", 0.39),
@@ -31,4 +29,15 @@ public enum ItemTypeEnum {
         this.price = price;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getVariant() {
+        return variant;
+    }
+
+    public double getPrice() {
+        return price;
+    }
 }

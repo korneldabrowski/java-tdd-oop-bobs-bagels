@@ -1,11 +1,6 @@
 package com.booleanuk.extension;
 
-import lombok.*;
 
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
 public class Item {
     private ItemTypeEnum type;
     private int count;
@@ -35,4 +30,38 @@ public class Item {
         }
     }
 
+    public Item(ItemTypeEnum type, int count, double price, int withoutDiscount) {
+        this.type = type;
+        this.count = count;
+        this.price = price;
+        this.withoutDiscount = withoutDiscount;
+    }
+
+    public ItemTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(ItemTypeEnum type) {
+        this.type = type;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getWithoutDiscount() {
+        return withoutDiscount;
+    }
+
+    public void setWithoutDiscount(int withoutDiscount) {
+        this.withoutDiscount = withoutDiscount;
+    }
 }
