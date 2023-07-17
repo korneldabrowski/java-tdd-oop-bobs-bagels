@@ -1,0 +1,19 @@
+| Class           	| Fields                                      	| Methods                                   	| Output                	| Explanation                                             	|
+|-----------------	|---------------------------------------------	|-------------------------------------------	|-----------------------	|---------------------------------------------------------	|
+| DiscountManager 	| HashMap<ItemTypeEnum, double[]> discountMap 	| initializeDiscounts()                     	|                       	| Puts all discounts into the hashmap                     	|
+|                 	| HashMap<Item, Double> finalPrize            	| calculateDiscount(Basket basket)          	| double                	| returns a discount amount of all items in cart          	|
+|                 	|                                             	| getFinalPrize()                           	| HashMap<Item, Double> 	| returns an map of discounted items with discount amount 	|
+|                 	|                                             	|                                           	|                       	|                                                         	|
+| Receipt         	|                                             	| PrintReceiptWithDiscounts()               	|                       	| prints nicely formatted receipt showing discounts       	|
+|                 	|                                             	| PrintReceiptWithoutDiscounts()            	|                       	| prints nicely formatted receipt without any discounts   	|
+| Item            	| type: ItemTypeEnum                          	|                                           	|                       	|                                                         	|
+|                 	| count: int                                  	| getPrice() & setPrice()                   	|                       	|                                                         	|
+|                 	| price: double                               	| setCount & updateCount()                  	|                       	|                                                         	|
+|                 	| priceNoDiscount: int                        	|                                           	|                       	|                                                         	|
+|                 	|                                             	|                                           	|                       	|                                                         	|
+| Basket          	| List<Item> Basket                           	| getBasket()                               	|                       	|                                                         	|
+|                 	| totalCost: double                           	| addItem() & removeItem()                  	|                       	|                                                         	|
+|                 	| capacity: int                               	| getBasketSize()                           	|                       	|                                                         	|
+|                 	|                                             	| getBasketCapacity() & setBasketCapacity() 	|                       	|                                                         	|
+|                 	|                                             	| getTotalCost()                            	|                       	|                                                         	|
+|                 	|                                             	|                                           	|                       	|                                                         	|
