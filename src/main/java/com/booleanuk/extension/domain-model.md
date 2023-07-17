@@ -1,19 +1,18 @@
-| Class           	| Fields                                      	| Methods                                   	| Output                	| Explanation                                             	|
-|-----------------	|---------------------------------------------	|-------------------------------------------	|-----------------------	|---------------------------------------------------------	|
-| DiscountManager 	| HashMap<ItemTypeEnum, double[]> discountMap 	| initializeDiscounts()                     	|                       	| Puts all discounts into the hashmap                     	|
-|                 	| HashMap<Item, Double> finalPrize            	| calculateDiscount(Basket basket)          	| double                	| returns a discount amount of all items in cart          	|
-|                 	|                                             	| getFinalPrize()                           	| HashMap<Item, Double> 	| returns an map of discounted items with discount amount 	|
-|                 	|                                             	|                                           	|                       	|                                                         	|
-| Receipt         	|                                             	| PrintReceiptWithDiscounts()               	|                       	| prints nicely formatted receipt showing discounts       	|
-|                 	|                                             	| PrintReceiptWithoutDiscounts()            	|                       	| prints nicely formatted receipt without any discounts   	|
-| Item            	| type: ItemTypeEnum                          	|                                           	|                       	|                                                         	|
-|                 	| count: int                                  	| getPrice() & setPrice()                   	|                       	|                                                         	|
-|                 	| price: double                               	| setCount & updateCount()                  	|                       	|                                                         	|
-|                 	| priceNoDiscount: int                        	|                                           	|                       	|                                                         	|
-|                 	|                                             	|                                           	|                       	|                                                         	|
-| Basket          	| List<Item> Basket                           	| getBasket()                               	|                       	|                                                         	|
-|                 	| totalCost: double                           	| addItem() & removeItem()                  	|                       	|                                                         	|
-|                 	| capacity: int                               	| getBasketSize()                           	|                       	|                                                         	|
-|                 	|                                             	| getBasketCapacity() & setBasketCapacity() 	|                       	|                                                         	|
-|                 	|                                             	| getTotalCost()                            	|                       	|                                                         	|
-|                 	|                                             	|                                           	|                       	|                                                         	|
+| Class        	| Fields                   	| Methods                                    	| Output 	|
+|--------------	|--------------------------	|--------------------------------------------	|--------	|
+| Basket       	| coffeeBagel: double      	| addItem(ItemTypeEnum itemType)             	| void   	|
+|              	|                          	| addItem(ItemTypeEnum itemType, int number) 	| void   	|
+|              	| List<Item> basket        	| removeItem(ItemTypeEnum itemType)          	| void   	|
+|              	| capacity: int            	| checkCapacity()                            	| int    	|
+|              	| totalCost: double        	| getTotalCostWithDiscount()                 	| double 	|
+|              	|                          	| getBasketSize()                            	| int    	|
+|              	| discountOnCoffee: double 	|                                            	|        	|
+| Item         	| type: ItemTypeEnum       	| update()                                   	| void   	|
+|              	| count: int               	|                                            	|        	|
+|              	| price: double            	|                                            	|        	|
+|              	| withoutDiscount: int     	|                                            	|        	|
+| ItemTypeEnum 	| name: String             	|                                            	|        	|
+|              	| variant: String          	|                                            	|        	|
+|              	| price: double            	|                                            	|        	|
+| Receipt      	|                          	| receiptWithDiscount(Basket basket)         	| String 	|
+|              	|                          	| normalReceipt(Basket basket)               	| String 	|
